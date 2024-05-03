@@ -86,16 +86,18 @@ export default {
         loading: true,
         sentByMe: false,
       });
-      this.input.disabled = false;
       this.sendMessageRequest();
     },
     deleteLoadingMessage() {
       const contenedor = document.getElementById("messagesBox");
-      const ultimoElemento = document.getElementById("loader");
+      const loader = document.getElementById("loader");
 
-      if (ultimoElemento) {
-        contenedor.removeChild(ultimoElemento);
-        this.messages.pop();
+      if (loader) {
+        contenedor.removeChild(loader);
+        const loaderIndex = this.messages.findIndex(
+          (msg) => msg.text === "" && msg.loading
+        );
+        this.messages.slice(loaderIndex, 1);
       }
     },
     async sendMessageRequest() {
@@ -104,7 +106,6 @@ export default {
           message: this.messages[this.messages.length - 1].text,
         })
         .then((response) => {
-          this.input.disabled = false;
           setTimeout(() => {
             this.deleteLoadingMessage();
             setTimeout(() => {
@@ -125,16 +126,21 @@ export default {
           }, 4000);
         })
         .catch((e) => {
-          console.log("Errorrorororo");
-          this.deleteLoadingMessage();
-          this.messages.push({
-            text: "Perdón, el sistema no está funcionando en estos momentos, intenta más tarde",
-            loading: false,
-            sentByMe: false,
-          });
-          this.input.display = "none";
-          console.log(e);
+          console.log("Error" + e);
+          setTimeout(
+            function () {
+              this.deleteLoadingMessage();
+              this.messages.push({
+                text: "Perdón, el sistema no está funcionando en estos momentos, intenta más tarde",
+                loading: false,
+                sentByMe: false,
+              });
+              this.input.disabled = false;
+            }.bind(this),
+            4000
+          );
         });
+      this.input.disabled = false;
     },
   },
   mounted() {
@@ -156,10 +162,10 @@ export default {
 
 <style>
 #logoContainer img {
-  width: 15%;
+  width: 17%;
   position: absolute;
   margin-bottom: 20px;
-  top: -25px;
+  top: -2px;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -195,8 +201,9 @@ export default {
 #messagesBox {
   padding: 0px 25px;
   display: flex;
+  justify-content: flex-end;
   flex-direction: column;
-  max-height: 860px;
+  max-height: 840px;
   margin-bottom: 20px;
   overflow-y: scroll;
 }
