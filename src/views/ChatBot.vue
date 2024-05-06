@@ -81,12 +81,13 @@ export default {
       this.onLoadingResponse();
     },
     onLoadingResponse() {
+      const message = this.messages[this.messages.length - 1].text;
       this.messages.push({
         text: "",
         loading: true,
         sentByMe: false,
       });
-      this.sendMessageRequest();
+      this.sendMessageRequest(message);
     },
     deleteLoadingMessage() {
       const contenedor = document.getElementById("messagesBox");
@@ -100,10 +101,10 @@ export default {
         this.messages.slice(loaderIndex, 1);
       }
     },
-    async sendMessageRequest() {
+    async sendMessageRequest(message) {
       axios
         .post("http://127.0.0.1:5000/get-response", {
-          message: this.messages[this.messages.length - 1].text,
+          message: message,
         })
         .then((response) => {
           setTimeout(() => {
