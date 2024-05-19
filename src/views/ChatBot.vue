@@ -57,11 +57,6 @@ export default {
           loading: false,
           sentByMe: false,
         },
-        {
-          text: "¿Qué deseas hacer hoy? <br/> <br/>&nbsp;&nbsp;1 - Registrar Datos <br/>&nbsp;&nbsp;2 - Consultar balance de deudas <br/>&nbsp;&nbsp;3 - Obtener consejos para ahorrar",
-          loading: false,
-          sentByMe: false,
-        },
       ],
       newMessage: "",
       input: null,
