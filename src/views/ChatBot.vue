@@ -53,7 +53,7 @@ export default {
     return {
       messages: [
         {
-          text: "¡Hola!",
+          text: "¡Hola, Bienvenido a MoneyMate!",
           loading: false,
           sentByMe: false,
         },
